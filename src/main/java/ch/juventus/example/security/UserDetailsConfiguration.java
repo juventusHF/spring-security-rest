@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 @Configuration
 public class UserDetailsConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
+    public static final String ROLE_S = "ROLE_%s";
+
     private AccountRepository accountRepository;
 
     @Autowired
@@ -37,7 +39,7 @@ public class UserDetailsConfiguration extends GlobalAuthenticationConfigurerAdap
                 Account account = accountRepository.findByName(username);
                 if (account != null) {
                     final String[] roles = account.getRoles().stream()
-                            .map(r -> r.getName())
+                            .map(r -> String.format(ROLE_S, r.getName().toUpperCase()))
                             .toArray(String[]::new); // jeez
                     return new User(account.getName(), account.getPassword(), true, true, true, true,
                             AuthorityUtils.createAuthorityList(roles));

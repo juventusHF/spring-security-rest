@@ -1,11 +1,7 @@
 package ch.juventus.example;
 
-import ch.juventus.example.data.Department;
-import ch.juventus.example.data.DepartmentRepository;
-import ch.juventus.example.data.Employee;
-import ch.juventus.example.data.Account;
-import ch.juventus.example.data.Role;
-import ch.juventus.example.data.AccountRepository;
+import ch.juventus.example.data.*;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,11 +22,15 @@ public class ExampleApplication {
 
         private final DepartmentRepository departmentRepository;
         private final AccountRepository accountRepository;
+        private final RoleRepository roleRepository;
 
         @Autowired
-        public initRepositoryCLR(DepartmentRepository departmentRepository, AccountRepository accountRepository) {
+        public initRepositoryCLR(DepartmentRepository departmentRepository,
+                                 AccountRepository accountRepository,
+                                 RoleRepository roleRepository) {
             this.departmentRepository = departmentRepository;
             this.accountRepository = accountRepository;
+            this.roleRepository = roleRepository;
         }
 
         @Override
@@ -45,7 +45,12 @@ public class ExampleApplication {
             Role userRole = new Role("user");
             Account bob = new Account("bob", "secret");
             bob.addRole(userRole);
-            accountRepository.save(bob);
+
+            Role adminRole = new Role("admin");
+            Account joe = new Account("joe", "secret");
+            joe.addRole(userRole);
+            joe.addRole(adminRole);
+            accountRepository.save(Lists.newArrayList(joe, bob));
         }
     }
 

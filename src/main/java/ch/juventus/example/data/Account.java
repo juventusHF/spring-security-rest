@@ -17,11 +17,7 @@ public class Account {
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "Account_Role",
-            joinColumns = { @JoinColumn(name = "account_id") },
-            inverseJoinColumns = { @JoinColumn(name = "role_id") }
-    )
+    @JoinTable
     private Set<Role> roles = new HashSet<>();
 
     public Account() {
