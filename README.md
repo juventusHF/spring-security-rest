@@ -36,6 +36,8 @@ Schau Dir in der Klasse `ch.juventus.example.ExampleApplication` folgenden Code 
 
 Was genau passiert hier?
 
+Schau Dir die Klasse `ch.juventus.example.security.UserDetailsConfiguration` an. Was ist der Zweck dieser Klasse?
+
 ### User Role Tabellen
 
 Die Applikation implementiert formbasierte Authentifizierung mit datenbankbasierten Benutzermanagement
@@ -100,4 +102,4 @@ Diesmal sollte der Request akzeptiert werden.
 Setze einen Breakpoint in der Methode `loadUserByUsername` in der Klasse `UserDetailsConfiguration`.
 Starte die Applikation im Debug-Modus und authentifiziere Dich mit `curl`.
 
-Was ist der Zweck des `UserDetailsService`?
+Wie funktioniert der `UserDetailsService`?
