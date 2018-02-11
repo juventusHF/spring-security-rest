@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 
 @Entity
+@XmlRootElement
 public class Department extends ResourceSupport {
 
     @Id
@@ -22,8 +23,8 @@ public class Department extends ResourceSupport {
     private String name;
 
     @OneToMany(
-        mappedBy = "department",
-        cascade = CascadeType.ALL
+            mappedBy = "department",
+            cascade = CascadeType.ALL
     )
     @JsonIgnore
     private List<Employee> employees = new ArrayList<>();

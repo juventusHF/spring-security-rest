@@ -9,6 +9,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
 public class EmployeeController {
@@ -22,12 +26,14 @@ public class EmployeeController {
 
     @GetMapping("/employees")
     public List<Employee> all() {
-        return employeeRepository.findAll();
+        return employeeRepository.findAll().stream()
+                .map(e -> addHateoasLinks(e))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/employees/{id}")
     public Employee get(@PathVariable Long id) {
-        return employeeRepository.getOne(id);
+        return addHateoasLinks(employeeRepository.getOne(id));
     }
 
     @PostMapping("/employees")
@@ -53,4 +59,12 @@ public class EmployeeController {
         employeeRepository.delete(id);
     }
 
+
+    public Employee addHateoasLinks(Employee employee) {
+        employee.add(linkTo(methodOn(EmployeeController.class).get(employee.getStid())).withSelfRel());
+        if (employee.getDepartment() != null) {
+            employee.add(linkTo(methodOn(DepartmentController.class).get(employee.getDepartment().getStid())).withRel("department"));
+        }
+        return employee;
+    }
 }
