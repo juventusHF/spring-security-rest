@@ -53,7 +53,7 @@ Ist das Passwort sicher abgelegt?
 
 ### Authentifizieren
 
-Welche Response gibt der Server bei unauthentifizierten Request auf eine geschützte Ressource?
+Welche Response gibt der Server bei unauthentifiziertem Request auf eine geschützte Ressource?
 
     curl -v -H "Content-Type: application/json" http://localhost:8080/employees
     
