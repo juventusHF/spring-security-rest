@@ -43,12 +43,13 @@ Schau Dir die Klasse `ch.juventus.example.security.UserDetailsConfiguration` an.
 Die Applikation implementiert formbasierte Authentifizierung mit datenbankbasierten Benutzermanagement
 (mit H2 als In-Memory DB).
 
-Als Vorgriff auf Persistenz mit Spring Data: 
+Zur Persistenz mit Spring Data: 
 - Die Klassen `Account` und `Role` repräsentieren Datenbanktabellen. 
 - Instanzen dieser Klassen repräsentieren Zeilen in diesen Tabellen.
 
 Welche Tabellen gibt es insgesamt, um die Benutzer der Anwendung zu verwalten?
 Wie sind die Beziehungen der Tabellen zueinander?
+Ist das Passwort sicher abgelegt?
 
 ### Authentifizieren
 
