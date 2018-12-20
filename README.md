@@ -84,10 +84,7 @@ Die Response sollte jetzt aus einer Liste von Employees bestehen.
 Die `create`-Methode im `EmployeeController` ist mit der `ADMIN`-Rolle geschützt.
 Was passiert, wenn man die Operation als "Bob" ausführen möchte?
 
-    curl -v -H "Content-Type: application/json" -d \
-    --cookie 'JSESSIONID=65000C7DA2784DEB7401FBC53CBB71CA;' \
-    '{"firstName":"Heidi","lastName":"Keppert","_links":{"department":{"href":"http://localhost:8080/departments/1"}}}' \
-    http://localhost:8080/employees
+    curl -X POST -v -H "Content-Type: application/json" --cookie 'JSESSIONID=5963EB553495BDBF819252E8B38A7FF6;' -d '{"firstName":"Heidi","lastName":"Keppert","_links":{"department":{"href":"http://localhost:8080/departments/1"}}}' http://localhost:8080/employees
     
     < HTTP/1.1 403 
     < ...
