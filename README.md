@@ -55,7 +55,7 @@ Ist das Passwort sicher abgelegt?
 
 Welche Response gibt der Server bei unauthentifiziertem Request auf eine geschützte Ressource?
 
-    curl -v -H "Content-Type: application/json" http://localhost:8080/employees
+    curl -v -H "Accept:application/json" http://localhost:8080/employees
     
 Um sich zu authentifizieren, kann ein Request mit den Credentials an die Webapplikation geschickt werden.
 
@@ -67,15 +67,15 @@ der Credentials.
 
 Sende nun folgenden Request:
 
-    curl -v  -d 'username=bob&password=secret' http://localhost:8080/login
+    curl -i -X POST -d username=bob -d password=secret http://localhost:8080/login -c cookie.txt
 
 In der Response siehst Du, dass die Anmeldung erfolgreich war. 
-Mit Hilfe des HTTP Cookies kannst Du nun einen weiteren Request senden, 
-welcher von Spring Security der existierenden Security-Session zugeordnet wird.
+Mit Hilfe des HTTP Cookies, welcher in `cookie.txt` abgelegt wurde, kannst Du einen weiteren Request senden. 
+Dieser Request wird von Spring Securityanhand des Wertes des Cookies anhand des Werted des Cookies der existierenden Security-Session zugeordnet.
 
-Mit dem Wert des empfangenen Cookies, sende nun folgenden Request:
+Sende nun folgenden Request:
     
-    curl -v -H "Content-Type: application/json" --cookie 'JSESSIONID=65000C7DA2784DEB7401FBC53CBB71CA;'  http://localhost:8080/employees
+    curl -i --header "Accept:application/json" -X GET -b cookie.txt http://localhost:8080/employees
     
 Die Response sollte jetzt aus einer Liste von Employees bestehen.
 
@@ -84,11 +84,10 @@ Die Response sollte jetzt aus einer Liste von Employees bestehen.
 Die `create`-Methode im `EmployeeController` ist mit der `ADMIN`-Rolle geschützt.
 Was passiert, wenn man die Operation als "Bob" ausführen möchte?
 
-    curl -X POST -v -H "Content-Type: application/json" --cookie 'JSESSIONID=5963EB553495BDBF819252E8B38A7FF6;' -d '{"firstName":"Heidi","lastName":"Keppert","_links":{"department":{"href":"http://localhost:8080/departments/1"}}}' http://localhost:8080/employees
+    curl -X POST -H "Content-Type:application/json" -b cookie.txt -d '{"firstName":"Heidi","lastName":"Keppert","_links":{"department":{"href":"http://localhost:8080/departments/1"}}}' http://localhost:8080/employees
     
     < HTTP/1.1 403 
     < ...
-
 
 Authentifiziere Dich am System mit `joe`/`secret` und versuche den Request erneut.
 Diesmal sollte der Request akzeptiert werden.
@@ -97,7 +96,7 @@ Diesmal sollte der Request akzeptiert werden.
     
 ### Bonus
 
-Setze einen Breakpoint in der Methode `loadUserByUsername` in der Klasse `UserDetailsConfiguration`.
+Setze einen Breakpoint in der Methode `loadUserByUsername` in der Klasse `AccountBasedUserDetailsService`.
 Starte die Applikation im Debug-Modus und authentifiziere Dich mit `curl`.
 
 Wie funktioniert der `UserDetailsService`?

@@ -1,16 +1,16 @@
 package ch.juventus.example;
 
 import ch.juventus.example.data.*;
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.Arrays;
 
 @SpringBootApplication
-@EnableSwagger2
 public class ExampleApplication {
 
 	public static void main(String[] args) {
@@ -23,14 +23,17 @@ public class ExampleApplication {
         private final DepartmentRepository departmentRepository;
         private final AccountRepository accountRepository;
         private final RoleRepository roleRepository;
+        private final PasswordEncoder encoder;
 
         @Autowired
         public initRepositoryCLR(DepartmentRepository departmentRepository,
                                  AccountRepository accountRepository,
-                                 RoleRepository roleRepository) {
+                                 RoleRepository roleRepository,
+                                 PasswordEncoder passwordEncoder) {
             this.departmentRepository = departmentRepository;
             this.accountRepository = accountRepository;
             this.roleRepository = roleRepository;
+            this.encoder = passwordEncoder;
         }
 
         @Override
@@ -43,14 +46,14 @@ public class ExampleApplication {
             departmentRepository.save(accounting);
 
             Role userRole = new Role("user");
-            Account bob = new Account("bob", "secret");
+            Account bob = new Account("bob", encoder.encode("secret"));
             bob.addRole(userRole);
 
             Role adminRole = new Role("admin");
-            Account joe = new Account("joe", "secret");
+            Account joe = new Account("joe", encoder.encode("secret"));
             joe.addRole(userRole);
             joe.addRole(adminRole);
-            accountRepository.save(Lists.newArrayList(joe, bob));
+            accountRepository.saveAll(Arrays.asList(joe, bob));
         }
     }
 

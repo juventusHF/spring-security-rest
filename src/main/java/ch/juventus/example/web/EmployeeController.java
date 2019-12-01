@@ -12,8 +12,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class EmployeeController {
@@ -58,7 +58,7 @@ public class EmployeeController {
 
     @DeleteMapping("/employees/{id}")
     public void delete(@PathVariable Long id) {
-        employeeRepository.delete(id);
+        employeeRepository.deleteById(id);
     }
 
 
