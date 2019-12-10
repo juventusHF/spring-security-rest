@@ -36,7 +36,7 @@ Schau Dir in der Klasse `ch.juventus.example.ExampleApplication` folgenden Code 
 
 Was genau passiert hier?
 
-Schau Dir die Klasse `ch.juventus.example.security.UserDetailsConfiguration` an. Was ist der Zweck dieser Klasse?
+Schau Dir die Klasse `ch.juventus.example.security.AccountBasedUserDetailsService.java` an. Was ist der Zweck dieser Klasse?
 
 ### User Role Tabellen
 
